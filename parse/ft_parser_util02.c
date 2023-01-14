@@ -9,12 +9,11 @@
 /*   Updated: 2023/01/13 17:35:07 by dpark            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "ft_parser.h"
 
 int	env_error(char *line)
 {
-	if (is_space(*line) == 0 && *line != '\"' && *line != '\''
+	if (is_space(*line) == 0 && *line != '\"' && *line != '\'' && *line != '$'
 		&& *line != '|' && *line != '<' && *line != '>' && *line)
 		return (1);
 	return (0);
@@ -71,7 +70,7 @@ char	*ft_check_env(char *line, char **environ)
 	line++;
 	if (*line == '?')
 		return (str = ft_itoa(g_rtn));
-	while (env_error(line) == 1)
+	while (env_error(line) == 1 && *line)
 	{
 		str = fts_strjoin(str, line[0], 0);
 		line++;
@@ -93,9 +92,8 @@ int	env_size(char *line)
 {
 	int	i;
 
-	i = 0;
-	i++;
-	while (env_error(&line[i]) == 1)
+	i = 1;
+	while (env_error(&line[i]) == 1 && line[i])
 		i++;
 	i--;
 	return (i);

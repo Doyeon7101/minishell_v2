@@ -38,6 +38,7 @@ char	**quotes_func(char **argv);
 int		ft_itoa_len(long long n);
 int		file_name_size(char *str);
 t_token	*is_redirects_func(t_token *tree, char *str);
+int		env_size_len(t_scmd *cmd, char *line);
 
 //ft_tree
 t_token	*new_node(char *str, int type);

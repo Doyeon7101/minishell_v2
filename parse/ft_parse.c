@@ -36,7 +36,7 @@ t_token	*non_string(t_token *tree, t_scmd *cmd, char *line)
 {
 	if (cmd->quotes != 0)
 		return (0);
-	if (cmd->str != NULL)
+	else if (cmd->str != NULL)
 	{
 		if (cmd->cnt == 1)
 			tree = ft_pipe_func(tree, cmd->str, line);
@@ -66,7 +66,7 @@ t_token	*ft_parse(char *line, t_token *tree, t_scmd *cmd, char **env)
 			cmd->str = 0;
 			cmd->cnt = 1;
 		}
-		else if (*line == '$' && cmd->quotes != 1 && line[1] != ' ' && line[1] && line[1] != '$')
+		else if (env_size_len(cmd, line) == 1)
 		{
 			if (ft_check_env(line, env) != 0)
 			{

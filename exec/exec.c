@@ -19,10 +19,7 @@ void	with_fork(t_cmd *node, t_exec *data, char **env)
 	pid = fork();
 	data->wpid = pid;
 	if (pid > 0)
-	{
-		// printf("\n");
 		update_fd(data);
-	}
 	else if (pid == 0)
 	{
 		signal(SIGINT, sigint_c);

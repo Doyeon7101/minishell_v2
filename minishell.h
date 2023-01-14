@@ -122,4 +122,6 @@ void		sigint_p(int signum);
 void		initialize_signal(void);
 void		check_exit_sigterm(char *line);
 
+t_bool		is_line_spaces(char *line);
+
 #endif

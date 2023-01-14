@@ -31,45 +31,22 @@ void	init_signal_exec(t_exec *data, t_token **tree)
 	*tree = NULL;
 }
 
-t_bool	is_line_spaces(char *line)
+void	check_vaild_execute(t_exec *data, t_token *tree, \
+						char **env, t_scmd *cmd)
 {
-	int	i;
+	int	ret;
 
-	i = -1;
-	while (line[++i])
+	ret = 1;
+	if (cmd->quotes != 0)
 	{
-		if (line[i] != ' ')
-			return (FALSE);
-	}
-	return (TRUE);
-}
-
-void	print_tree(t_token *tree)
-{
-	int i = 0;
-
-	if (tree == NULL)
+		printf("ERROR: quotes error\n");
 		return ;
-	printf("%d:", tree->type);
- 	if (tree->type == T_REDS)
-	{
-		printf("  type:%s, name:%s", tree->rdr->type, tree->rdr->file_name);
-		//printf("  type:%lu, name:%lu\n", sizeof(tree->rdr->type), sizeof(tree->rdr->file_name));
 	}
- 	else if (tree->type == T_SCMD)
-	{
-		printf("  file_path:%s, ", tree->cmd->file_path);
-		printf("argv:");
-		while (tree->cmd->argv[i])
-		{
-			printf("%s ", tree->cmd->argv[i]);
-			i++;
-		}
-		//printf("  type:%lu, name:%lu\n", sizeof(tree->cmd->file_path), sizeof(tree->cmd->argv));
-	}
-	printf("\n");
-	print_tree(tree->left);
-	print_tree(tree->right);
+	check_syntax(tree, &ret, data);
+	if (ret == -1)
+		printf("ERROR: fail to syntax analysis\n");
+	else if (tree)
+		search_tree(tree, data, env, &ret);
 }
 
 void	prompt(char **env, t_exec *data, t_scmd *cmd)
@@ -78,7 +55,7 @@ void	prompt(char **env, t_exec *data, t_scmd *cmd)
 	t_token	*tree;
 	int		ret;
 
- 	g_rtn = 0;
+	g_rtn = 0;
 	while (1)
 	{
 		ret = 1;
@@ -89,16 +66,8 @@ void	prompt(char **env, t_exec *data, t_scmd *cmd)
 			;
 		else
 		{
-			ret = 1;
 			tree = ft_parse(line, tree, cmd, env);
-			// print_tree(tree);
-			check_syntax(tree, &ret, data);
-			if (cmd->quotes != 0)
-				printf("ERROR: quotes error\n");
-			else if (ret == -1)
-				printf("ERROR: fail to syntax analysis\n");
-			else if (tree)
-				search_tree(tree, data, env, &ret);
+			check_vaild_execute(data, tree, env, cmd);
 			cmd = parse_free(cmd);
 			ft_free_token(tree);
 		}

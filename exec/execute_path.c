@@ -69,9 +69,6 @@ void	execute_cmd(t_cmd *node, char **environ)
 			path++;
 		}
 	}
-	printf("***%s\n", path_cmd);
 	if (execve(path_cmd, node->argv, environ) == -1)
-	{
 		exit_execve();
-	}
 }

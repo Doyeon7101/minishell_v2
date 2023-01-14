@@ -38,25 +38,29 @@ int	ft_atoi(const char *str)
 	return (result * n);
 }
 
-void	exit_util(char *argv)
+void	exit_util(char **argv)
 {
 	int	i;
 
 	i = -1;
-	while (argv[++i])
+	while (argv[1][++i])
 	{
-		if (argv[i] >= '0' && argv[i] <= '9')
+		if (argv[1][i] < '0' || argv[1][i] > '9')
 		{
-			printf("exit\n");
-			g_rtn = ft_atoi(argv);
-			exit(g_rtn);
-		}
-		else
-		{
-			printf("exit\nbash: exit: %s: numeric argument required\n", argv);
+			printf("exit\nbash: exit: %s: numeric argument required\n", argv[1]);
 			g_rtn = 255;
 			exit(g_rtn);
 		}
+	}
+	if (argv[2] == NULL)
+	{
+		printf("exit\n");
+		g_rtn = ft_atoi(argv[1]);
+		exit(g_rtn);
+	}
+	else
+	{
+		printf("exit\nbash :exit: too many arguments\n");
 	}
 }
 
@@ -67,14 +71,10 @@ int	ft_exit(char **argv)
 		printf("exit\n");
 		exit(0);
 	}
-	else if (argv[2] == NULL)
-	{
-		exit_util(argv[1]);
-	}
 	else
 	{
-		printf("exit\nbash :exit: too many arguments\n");
+		exit_util(argv);
 	}
 	g_rtn = 1;
-	exit(g_rtn);
+	return (g_rtn);
 }

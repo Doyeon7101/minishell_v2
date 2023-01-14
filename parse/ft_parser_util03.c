@@ -83,3 +83,11 @@ t_token	*is_redirects_func(t_token *tree, char *str)
 	tree = insert_red_node(tree, chr, T_REDS);
 	return (tree);
 }
+
+int	env_size_len(t_scmd *cmd, char *line)
+{
+	if (*line == '$' && cmd->quotes != 1 && \
+			line[1] != ' ' && line[1] && line[1] != '$')
+		return (1);
+	return (0);
+}

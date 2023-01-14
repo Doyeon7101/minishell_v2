@@ -60,3 +60,16 @@ int	ftd_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
+
+t_bool	is_line_spaces(char *line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i])
+	{
+		if (line[i] != ' ')
+			return (FALSE);
+	}
+	return (TRUE);
+}

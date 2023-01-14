@@ -26,6 +26,7 @@ void	sigint_p(int signum)
 {
 	if (signum != SIGINT)
 		return ;
+	g_rtn = 1;
 	printf("\e[%dC  \n", rl_end + 11);
 	if (rl_on_new_line() == -1)
 		exit(1);
